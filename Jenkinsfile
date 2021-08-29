@@ -1,8 +1,9 @@
 pipeline {
     agent any
-    environment{
-			docker_username_password_creid='b4d22508-ebd0-44fe-b575-98805582d7ef'
-			dockerhub_url='registry.hub.docker.com'
+	
+    environment {
+	docker_username_password_creid='b4d22508-ebd0-44fe-b575-98805582d7ef'
+	dockerhub_url='registry.hub.docker.com'
     }
     stages {
         stage('pull code') {
@@ -41,6 +42,7 @@ pipeline {
 				bat 'docker build -f DockerFile -t kexiaomeng/devops-java-sample:v1.0 .'
 				// 将镜像打标签
 				bat 'docker tag kexiaomeng/devops-java-sample:v1.0 kexiaomeng824/devops-java-sample:v1.0'
+				bat "printenv"
 				// 推送镜像
 				withCredentials([usernamePassword(credentialsId: "${docker_username_password_creid}", passwordVariable: 'password', usernameVariable: 'username')]) {
 					// some block
