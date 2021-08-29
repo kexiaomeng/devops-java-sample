@@ -30,16 +30,23 @@ pipeline {
             }
             
         }
-		// 编译镜像
+	// 编译镜像
 	stage('打包镜像，推送镜像'){
-		steps { 
-			echo 'build docker images'
-			bat 'docker build -f DockerFile -t kexiaomeng/devops-java-sample:v1.0 .'
-			// docker build
-			bat 'docker tag kexiaomeng/devops-java-sample:v1.0 kexiaomeng824/devops-java-sample:v1.0'
-
-		}
-		
+			steps { 
+				echo 'build docker images'
+				// 制作镜像
+				bat 'docker build -f DockerFile -t kexiaomeng/devops-java-sample:v1.0 .'
+				// 将镜像打标签
+				bat 'docker tag kexiaomeng/devops-java-sample:v1.0 kexiaomeng824/devops-java-sample:v1.0'
+				// 推送镜像
+				withCredentials([usernamePassword(credentialsId: "${docker_username_password_creid}", passwordVariable: 'password', usernameVariable: 'username')]) {
+					// some block
+					// 登录到dockerhub
+					bat "docker login -u ${username} -p ${password} ${dockerhub_url}"
+					bat "docker push kexiaomeng824/devops-java-sample:v1.0"
+				}
+				echo 'push success'
+			}
 	}
         // 发部项目
         stage('deploy') {
