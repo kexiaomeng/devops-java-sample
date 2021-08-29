@@ -36,7 +36,7 @@ pipeline {
 			echo 'build docker images'
 			bat 'docker build -f DockerFile -t kexiaomeng/devops-java-sample:v1.0 .'
 			// docker build
-			bat 'docker tag kexiaomeng824/devops-java-sample'
+			bat 'docker tag kexiaomeng/devops-java-sample:v1.0 kexiaomeng824/devops-java-sample:v1.0'
 
 		}
 		
