@@ -46,7 +46,7 @@ pipeline {
 				withCredentials([usernamePassword(credentialsId: "${docker_username_password_creid}", passwordVariable: 'password', usernameVariable: 'username')]) {
 					// some block
 					// 登录到dockerhub
-					bat "docker login -u ${username} -p ${password} ${dockerhub_url}"
+					bat "docker login -u ${username} -p ${password}"
 					bat "docker push kexiaomeng824/devops-java-sample:v1.0"
 				}
 				echo 'push success'
