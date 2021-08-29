@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    environment{
+			docker_username_password_creid='b4d22508-ebd0-44fe-b575-98805582d7ef'
+			dockerhub_url='registry.hub.docker.com'
+    }
     stages {
         stage('pull code') {
             steps {
@@ -31,7 +34,7 @@ pipeline {
             
         }
 	// 编译镜像
-	stage('打包镜像，推送镜像'){
+	stage('build images and push'){
 			steps { 
 				echo 'build docker images'
 				// 制作镜像
