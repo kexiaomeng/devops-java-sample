@@ -42,7 +42,6 @@ pipeline {
 				bat 'docker build -f DockerFile -t kexiaomeng/devops-java-sample:v1.0 .'
 				// 将镜像打标签
 				bat 'docker tag kexiaomeng/devops-java-sample:v1.0 kexiaomeng824/devops-java-sample:v1.0'
-				bat "printenv"
 				// 推送镜像
 				withCredentials([usernamePassword(credentialsId: "${docker_username_password_creid}", passwordVariable: 'password', usernameVariable: 'username')]) {
 					// some block
