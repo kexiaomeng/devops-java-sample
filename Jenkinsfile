@@ -31,11 +31,14 @@ pipeline {
             
         }
 		// 编译镜像
-		stage('打包镜像'){
+	stage('打包镜像'){
+		steps { 
 			echo 'build docker images'
 			bat 'docker build -f DockerFile -t kexiaomeng/devops-java-sample:v1.0 .'
 			// docker build
 		}
+		
+	}
         // 发部项目
         stage('deploy') {
             steps { 
