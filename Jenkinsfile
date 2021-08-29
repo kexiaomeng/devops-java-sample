@@ -9,19 +9,19 @@ pipeline {
             }
         }
         // 这一步可以不要
-        stage('code analysis') {
-            steps { 
-                script {
+        //stage('code analysis') {
+          //  steps { 
+             //   script {
                     // 引入sonarqube-scanner工具
-                    scannerHome = tool 'sonar-scanner'
-                }
+                   // scannerHome = tool 'sonar-scanner'
+              //  }
                 // 括号引入sonarqube服务器环境的名称
-                withSonarQubeEnv('sonarqube') {
-                    bat "${scannerHome}/bin/sonar-scanner"
-                }
-            }
+             //  withSonarQubeEnv('sonarqube') {
+                   // bat "${scannerHome}/bin/sonar-scanner"
+                //}
+           // }
             
-        }
+       // }
         // 编译打包项目
         stage('build project') {
             steps { 
