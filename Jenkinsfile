@@ -34,24 +34,19 @@ pipeline {
             }
             
         }
-	// 编译镜像
-	stage('build images and push'){
-			steps { 
-				echo 'build docker images'
-				// 制作镜像
-				bat 'docker build -f DockerFile -t kexiaomeng/devops-java-sample:v1.0 .'
-				// 将镜像打标签
-				bat 'docker tag kexiaomeng/devops-java-sample:v1.0 kexiaomeng824/devops-java-sample:v1.0'
+	// 拉取镜像
+		stage('pull images from docker'){
+			steps {
+				echo 'pull images'
 				// 推送镜像
 				withCredentials([usernamePassword(credentialsId: "${docker_username_password_creid}", passwordVariable: 'password', usernameVariable: 'username')]) {
 					// some block
 					// 登录到dockerhub
-					bat "docker login -u ${username} -p ${password}"
-					bat "docker push kexiaomeng824/devops-java-sample:v1.0"
+					bat "docker login -u ${username} -p ${password} docker.io"
+					bat "docker pull kexiaomeng824/devops-java-sample:v1.0"
 				}
-				echo 'push success'
 			}
-	}
+		}
         // 发部项目
         stage('deploy') {
             steps { 
