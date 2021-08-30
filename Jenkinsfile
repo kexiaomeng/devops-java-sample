@@ -26,15 +26,25 @@ pipeline {
            // }
             
        // }
-        // 编译打包项目
-        stage('build project') {
-            steps { 
-                echo 'build project'
-                bat 'mvn -Dmaven.test.skip=true clean package'
-            }
-            
-        }
-	// 拉取镜像
+       // 编译镜像
+		stage('打包镜像，推送镜像'){
+			steps { 
+				echo 'build docker images'
+				// 制作镜像
+				bat 'docker build -f DockerFile -t kexiaomeng/devops-java-sample:v1.0 .'
+				// 将镜像打标签
+				bat 'docker tag kexiaomeng/devops-java-sample:v1.0 kexiaomeng824/devops-java-sample:v1.0'
+				// 推送镜像
+				withCredentials([usernamePassword(credentialsId: "${docker_username_password_creid}", passwordVariable: 'password', usernameVariable: 'username')]) {
+					// some block
+					// 登录到dockerhub
+					bat "docker login -u ${username} -p ${password} ${dockerhub_url}"
+					bat "docker push kexiaomeng824/devops-java-sample:v1.0"
+				}
+				echo 'push success'
+			}
+		}
+		// 拉取镜像
 		stage('pull images from docker'){
 			steps {
 				echo 'pull images'
